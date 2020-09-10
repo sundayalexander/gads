@@ -1,0 +1,51 @@
+#Task 1
+##Create a utility virtual machine
+Gcloud compute instances create vir-inst \
+--region=us-central1 \
+--zone=us-central1-c \
+--machine-type=n1-standard-1 \
+--external-ip=none
+
+
+#Examine the VM details
+gcloud compute instances describe vir-inst
+
+#Task 2
+##Create a VM
+gcloud compute instances create win-server 
+--region=europe-west2 --zone=europe-west2-a \
+--machine-type=n1-standard-2 \
+--image=windows-server-2016-dc-core \
+--tags=windows-server \
+--boot-disk-type=pd-ssd \
+--boot-disk-size=100GB \
+
+##set firewall rules
+gcloud compute firewall-rules create allow-http \
+--action=ALLOW \
+--direction=INGRESS \
+--rules=tcp:80 \
+--target-tags=windows-server \
+--source-ranges=0.0.0.0/0
+
+gcloud compute firewall-rules create allow-https \
+--action=ALLOW \
+--direction=INGRESS \
+--rules=tcp:443 \
+--target-tags=windows-server \
+--source-ranges=0.0.0.0/0
+
+
+##Set the password for the VM
+gcloud compute reset-windows-password win-server
+
+
+#Task 3
+##Create a custom VM
+Gcloud compute instances create cust_vm
+--region=us-west1 --zone=us-west1-b \
+--machine-type=custom-6-32768
+
+
+
+

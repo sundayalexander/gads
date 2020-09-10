@@ -1,0 +1,48 @@
+### Overview ###
+In this lab, you create a Google Kubernetes Engine 
+cluster containing several containers, each 
+containing a web server. You place a load balancer 
+in front of the cluster and view its contents.
+
+
+
+### Objectives ###
+In this lab, you learn how to perform the following tasks:
+
+Provision a Kubernetes cluster using Kubernetes Engine.
+
+Deploy and manage Docker containers using kubectl.
+
+
+####################### SOLUTION ###############################
+
+#Start a kubernetes engine cluster
+export MY_ZONE= us-central1-a
+
+gcloud container clusters create webfrontend \
+--zone $MY_ZONE 
+--num-nodes 2
+
+##to check the version of kubernetes
+kubectl version
+
+##to view the running nodes
+
+
+##Run and deploy a container
+kubectl create deploy nginx --image=nginx:1.17.10
+
+##Expose the nginx container to the internet
+kubectl expose deployment nginx --port 80 --type LoadBalancer
+
+##To view the number of services
+kubectl get services
+
+##To scale up the number of pods running on yur service
+kubectl scale deployment nginx --replicas 3
+
+##To confirm that kubernetes has updated the number of pods
+kubectl get pods
+
+##To view the number of services
+kubectl get services
